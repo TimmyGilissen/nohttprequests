@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using PubNubMessaging.Core;
+using TestingDockerFrameWork.Repository;
 
 namespace TestingDockerFrameWork.Handlers
 {
     public class GetAllUsersHandler
     {
         private readonly Pubnub _pubnub;
+        private readonly UsersRepository _usersRepo;
         public GetAllUsersHandler()
         {
             _pubnub = new Pubnub("pub-c-81182831-bf67-42f1-8a0c-1cae468c5d6f", "sub-c-d7bd3004-a74c-11e6-b237-02ee2ddab7fe");
@@ -16,16 +18,19 @@ namespace TestingDockerFrameWork.Handlers
                 DisplaySubscribeConnectStatusMessage,
                 DisplayErrorMessage
             );
+
+            _usersRepo = new UsersRepository();
         }
 
-        void DisplayReturnMessage(List<User> result)
+        void DisplayReturnMessage(List<string> result)
         {
             Console.WriteLine("PUBLISH STATUS CALLBACK");
             Console.WriteLine(result);
         }
         void DisplaySubscribeReturnMessage(string result)
         {
-            _pubnub.Publish<List<User>>("GetAllUsersHandled", new List<User> {new User {Id = 1, Name = "Timmy Gilissen"} }, 
+            var users = new List<string>{ "Timmy", "Carmen"};
+            _pubnub.Publish<List<string>>("GetAllUsersHandled", users,
                 DisplayReturnMessage,
                 DisplayErrorMessage
             );
@@ -53,11 +58,5 @@ namespace TestingDockerFrameWork.Handlers
         {
             Console.WriteLine("DisplaySubscribeDisconnectStatusMessage");
         }
-    }
-
-    public class User
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
     }
 }

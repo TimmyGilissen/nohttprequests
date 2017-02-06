@@ -1,0 +1,15 @@
+﻿{
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "debugType": "portable"
+  },
+  "frameworks": {
+      "net452": {}
+  },
+    "dependencies": {
+        "MongoDB.Driver.Core": "2.3.0",
+        "mongocsharpdriver":"2.3.0",
+        "MongoDB.Driver" :"2.3.0",
+        "MongoDB.Bson" :"2.3.0"
+    }
+}
