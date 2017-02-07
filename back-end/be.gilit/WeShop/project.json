@@ -1,0 +1,16 @@
+﻿{
+    "version": "1.0.0-*",
+    "buildOptions": {
+        "emitEntryPoint": true
+    },
+    "dependencies": {
+        "Pubnub": "3.8.5",
+        "MongoDB.Driver.Core": "2.3.0",
+        "mongocsharpdriver":"2.3.0",
+        "MongoDB.Driver" :"2.3.0",
+        "MongoDB.Bson" :"2.3.0"
+    },
+    "frameworks": {
+        "net452": {}
+    }
+}

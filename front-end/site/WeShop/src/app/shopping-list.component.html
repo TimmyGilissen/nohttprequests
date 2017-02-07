@@ -3,20 +3,18 @@
     <h1>
       {{title}}
     </h1>
-    <input class="new-todo" placeholder="What needs to be bougth?" autofocus="" [(ngModel)]="newshoppingListItem.title" (keyup.enter)="addShoppingList()">
+    <input class="new-todo" placeholder="What needs to be bought?" autofocus [(ngModel)]="newshoppingListItem.title" (keyup.enter)="addShoppingList()">
+    <button class="add" (click)="addShoppingList()">Add</button>
   </header>
   <section class="main" *ngIf="shoppingList.length > 0">
     <ul class="todo-list">
       <li *ngFor="let shoppingListItem of shoppingList" [class.completed]="shoppingListItem.complete">
-        <div class="view">
-          <input class="toggle" type="checkbox" (click)="clicked" [checked]="shoppingListItem.complete">
-          <label>{{shoppingListItem.title}}</label>
-          <button class="destroy" (click)="clicked"></button>
-        </div>
-      </li>
+          <div class="view">
+            <input class="toggle" type="checkbox" (click)="toggle()" [checked]="shoppingListItem.complete">
+            <label (dblclick)="enterEditMode(todoItemInput)">{{shoppingListItem.title}}</label>
+            <button (click)="doneClicked()" class="destroy"></button>
+          </div>
+        </li>
     </ul>
   </section>
-  <footer class="footer" *ngIf="shoppingList.length > 0">
-    <span class="shoppingList-count"><strong>{{shoppingList.length}}</strong> {{shoppingList.length == 1 ? 'item' : 'items'}} left</span>
-  </footer>
 </section>

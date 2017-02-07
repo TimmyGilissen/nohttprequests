@@ -26,7 +26,9 @@ export class ShoppingListAppComponent {
     this.shoppingListService.addShoppingListItem(this.newshoppingListItem);
     this.newshoppingListItem = new ShoppingListItem();
   }
-
+  doneClicked = () => {
+      console.log('doneClicked');
+  }
   clicked = () => {
     console.log('clicked');
   }

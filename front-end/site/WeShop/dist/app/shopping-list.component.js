@@ -20,6 +20,9 @@ var ShoppingListAppComponent = (function () {
         this.subscriberService = subscriberService;
         this.title = 'shopping-list';
         this.newshoppingListItem = new shopping_list_item_1.ShoppingListItem();
+        this.doneClicked = function () {
+            console.log('doneClicked');
+        };
         this.clicked = function () {
             console.log('clicked');
         };
