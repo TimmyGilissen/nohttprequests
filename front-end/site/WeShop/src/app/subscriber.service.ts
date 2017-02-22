@@ -17,4 +17,11 @@ export class SubscriberService {
         callBack(msg);
       });
   }
+
+  PublishToChannel = (channelName:string, message:any) => {
+    this.pubnub.publish({
+        "message": message,
+        "channel": channelName
+    })
+  }
 }

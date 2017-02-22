@@ -3,12 +3,14 @@
  **********************************************************************************************/
 /** Map relative paths to URLs. */
 const map: any = {
-  'pubnub' : 'vender/pubnub/dist/web/pubnub.js',
-  'pubnub-angular2': 'vendor/pubnub-angular2/dist/pubnub-angular2.js'
+  'pubnub': 'vender/pubnub/dist/web/pubnub.js',
+  'pubnub-angular2': 'vendor/pubnub-angular2/dist/pubnub-angular2.js',
+  'lodash': 'vendor/lodash/lodash.js',
 };
 
 /** User packages configuration. */
 const packages: any = {
+  
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,6 +28,7 @@ const barrels: string[] = [
   '@angular/platform-browser-dynamic',
   'pubnub',
   'pubnub-angular2',
+  'lodash',
 
   // Thirdparty barrels.
   'rxjs',

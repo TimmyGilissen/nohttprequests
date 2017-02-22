@@ -13,7 +13,8 @@ module.exports = function(defaults) {
       'rxjs/**/*.js',
       '@angular/**/*.js',
       'pubnub/dist/web/*.js',
-      'pubnub-angular2/dist/*.js'
+      'pubnub-angular2/dist/*.js',
+      'lodash/**/*.+(js|js.map)'
     ]
   });
 };

@@ -9,6 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var shopping_list_item_1 = require('./shopping-list-item');
+require('lodash');
 var ShoppingListService = (function () {
     function ShoppingListService() {
         this.lastId = 0;
@@ -21,8 +23,18 @@ var ShoppingListService = (function () {
         this.shoppingList.push(shoppingListItem);
         return this;
     };
+    ShoppingListService.prototype.removeShoppingListItem = function (shoppingListItem) {
+        _.remove(this.shoppingList, function (shoppingListI) {
+            return shoppingListI.id === shoppingListItem.id;
+        });
+    };
     ShoppingListService.prototype.getShoppingList = function () {
         return this.shoppingList;
+    };
+    ShoppingListService.prototype.InitShoppingList = function (items) {
+        for (var item in items) {
+            this.shoppingList.push(new shopping_list_item_1.ShoppingListItem(items[item]));
+        }
     };
     ShoppingListService = __decorate([
         core_1.Injectable(), 

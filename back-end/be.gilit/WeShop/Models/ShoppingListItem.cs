@@ -4,9 +4,8 @@ namespace WeShop.Models
 {
     public class ShoppingListItem
     {
-        public ObjectId Id { get; set; }
-        public string Title { get; set; }
-        public bool Completed { get; set; }
-
+        public ObjectId id { get; set; }
+        public string title { get; set; }
+        public bool complete { get; set; }
     }
 }

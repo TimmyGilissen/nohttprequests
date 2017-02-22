@@ -12,7 +12,7 @@
           <div class="view">
             <input class="toggle" type="checkbox" (click)="toggle()" [checked]="shoppingListItem.complete">
             <label (dblclick)="enterEditMode(todoItemInput)">{{shoppingListItem.title}}</label>
-            <button (click)="doneClicked()" class="destroy"></button>
+            <button (click)="delete(shoppingListItem)" class="destroy"></button>
           </div>
         </li>
     </ul>

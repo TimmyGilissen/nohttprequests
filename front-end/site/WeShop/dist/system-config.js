@@ -4,7 +4,8 @@
 /** Map relative paths to URLs. */
 var map = {
     'pubnub': 'vender/pubnub/dist/web/pubnub.js',
-    'pubnub-angular2': 'vendor/pubnub-angular2/dist/pubnub-angular2.js'
+    'pubnub-angular2': 'vendor/pubnub-angular2/dist/pubnub-angular2.js',
+    'lodash': 'vendor/lodash/lodash.js',
 };
 /** User packages configuration. */
 var packages = {};
@@ -23,6 +24,7 @@ var barrels = [
     '@angular/platform-browser-dynamic',
     'pubnub',
     'pubnub-angular2',
+    'lodash',
     // Thirdparty barrels.
     'rxjs',
     // App specific barrels.

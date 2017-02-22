@@ -12,12 +12,14 @@ var core_1 = require('@angular/core');
 var shopping_list_service_1 = require('./shopping-list-service');
 var shopping_list_item_1 = require('./shopping-list-item');
 var subscriber_service_1 = require('./subscriber.service');
+var publisher_service_1 = require('./publisher.service');
 var pubnub_angular2_1 = require('pubnub-angular2');
 var ShoppingListAppComponent = (function () {
-    function ShoppingListAppComponent(shoppingListService, subscriberService) {
+    function ShoppingListAppComponent(shoppingListService, subscriberService, publisherService) {
         var _this = this;
         this.shoppingListService = shoppingListService;
         this.subscriberService = subscriberService;
+        this.publisherService = publisherService;
         this.title = 'shopping-list';
         this.newshoppingListItem = new shopping_list_item_1.ShoppingListItem();
         this.doneClicked = function () {
@@ -29,10 +31,23 @@ var ShoppingListAppComponent = (function () {
         subscriberService.SubscribeToChannel("newShoppingListItem", function (msg) {
             _this.shoppingListService.addShoppingListItem(new shopping_list_item_1.ShoppingListItem(msg.message));
         });
+        subscriberService.SubscribeToChannel("GetShoppingListHandled", function (msg) {
+            _this.shoppingListService.InitShoppingList(msg.message);
+        });
+        subscriberService.SubscribeToChannel("AddNewShoppingListItemHandled", function (msg) {
+            _this.shoppingListService.addShoppingListItem(new shopping_list_item_1.ShoppingListItem(msg.message));
+            _this.newshoppingListItem = new shopping_list_item_1.ShoppingListItem();
+        });
+        subscriberService.SubscribeToChannel("ShoppingListItemRemovedHandled", function (msg) {
+            _this.shoppingListService.removeShoppingListItem(new shopping_list_item_1.ShoppingListItem(msg.message));
+        });
+        subscriberService.PublishToChannel("GetShoppingList", "{}");
     }
+    ShoppingListAppComponent.prototype.delete = function (shoppingListItem) {
+        this.subscriberService.PublishToChannel("ShoppingListItemRemove", shoppingListItem);
+    };
     ShoppingListAppComponent.prototype.addShoppingList = function () {
-        this.shoppingListService.addShoppingListItem(this.newshoppingListItem);
-        this.newshoppingListItem = new shopping_list_item_1.ShoppingListItem();
+        this.subscriberService.PublishToChannel("AddNewShoppingListItem", this.newshoppingListItem);
     };
     Object.defineProperty(ShoppingListAppComponent.prototype, "shoppingList", {
         get: function () {
@@ -47,9 +62,9 @@ var ShoppingListAppComponent = (function () {
             selector: 'shopping-list-app',
             templateUrl: 'shopping-list.component.html',
             styleUrls: ['shopping-list.component.css'],
-            providers: [shopping_list_service_1.ShoppingListService, subscriber_service_1.SubscriberService, pubnub_angular2_1.PubNubAngular]
+            providers: [shopping_list_service_1.ShoppingListService, subscriber_service_1.SubscriberService, publisher_service_1.PublisherService, pubnub_angular2_1.PubNubAngular]
         }), 
-        __metadata('design:paramtypes', [shopping_list_service_1.ShoppingListService, subscriber_service_1.SubscriberService])
+        __metadata('design:paramtypes', [shopping_list_service_1.ShoppingListService, subscriber_service_1.SubscriberService, publisher_service_1.PublisherService])
     ], ShoppingListAppComponent);
     return ShoppingListAppComponent;
 }());

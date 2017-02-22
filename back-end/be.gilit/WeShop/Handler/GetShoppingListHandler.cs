@@ -1,41 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using PubNubMessaging.Core;
+using WeShop.dto;
 using WeShop.Models;
+using WeShop.Repository;
 
 namespace WeShop.Handler
 {
     public class GetShoppingListHandler
     {
         private readonly Pubnub _pubnub;
+        private readonly ShoppingListRepository _repo;
 
         public GetShoppingListHandler()
         {
+             _repo = new ShoppingListRepository();
             _pubnub = new Pubnub("pub-c-81182831-bf67-42f1-8a0c-1cae468c5d6f", "sub-c-d7bd3004-a74c-11e6-b237-02ee2ddab7fe");
             _pubnub.Subscribe<string>(
                 "GetShoppingList",
                 DisplaySubscribeReturnMessage,
-                DisplaySubscribeConnectStatusMessage,
-                DisplayErrorMessage
+                x => {},
+                y => {}
             );
 
+            _pubnub.Subscribe<string>("AddNewShoppingListItem",AddNewShoppingListItem,x =>{}, y => {});
+            _pubnub.Subscribe<string>("ShoppingListItemRemove",ShoppingListItemRemove, x => {}, y => {});
+
         }
 
-        private void DisplayErrorMessage(PubnubClientError obj)
+        private void ShoppingListItemRemove(string message)
         {
-            Console.WriteLine("DisplayErrorMessage");
+            Console.WriteLine("ShoppingListItemRemove");
+            List<object> deserializedMessage = _pubnub.JsonPluggableLibrary.DeserializeToListOfObject(message);
+            var shoppingListItem = JsonConvert.DeserializeObject<ShoppingListItemDto>(deserializedMessage[0].ToString());
+
+            _repo.Delete(shoppingListItem.id);
+
+            _pubnub.Publish<ShoppingListItem>("ShoppingListItemRemovedHandled", shoppingListItem, x => { }, y => { });
         }
 
-        private void DisplaySubscribeConnectStatusMessage(string obj)
+        private void AddNewShoppingListItem(string message)
         {
-           Console.WriteLine("DisplaySubscribeConnectStatusMessage");
+            List<object> deserializedMessage = _pubnub.JsonPluggableLibrary.DeserializeToListOfObject(message);
+            var shoppingListItem = JsonConvert.DeserializeObject<ShoppingListItem>(deserializedMessage[0].ToString());
+
+            _repo.Add(shoppingListItem);
+            Console.WriteLine(shoppingListItem);
+            _pubnub.Publish<ShoppingListItem>("AddNewShoppingListItemHandled",shoppingListItem, x => {}, y => {});
         }
 
         private void DisplaySubscribeReturnMessage(string obj)
         {
-            _pubnub.Publish<List<ShoppingListItem>>("GetAllUsersHandled", null,
-                x => {},
-                y => {}
+
+            var list = _repo.GetAll();
+            Console.WriteLine("message received");
+            _pubnub.Publish<List<ShoppingListItem>>("GetShoppingListHandled", list,
+                x => { },
+                y => { }
             );
         }
 
@@ -43,9 +65,9 @@ namespace WeShop.Handler
                 {
                     _pubnub.Unsubscribe<string>("GetAllUsers",
                         DisplaySubscribeReturnMessage,
-                        DisplaySubscribeConnectStatusMessage,
                         x => {},
-                        DisplayErrorMessage
+                        x => {},
+                        x => {}
                     );
                 }
     }
