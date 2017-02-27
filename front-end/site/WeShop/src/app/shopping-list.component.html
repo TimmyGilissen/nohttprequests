@@ -10,7 +10,7 @@
     <ul class="todo-list">
       <li *ngFor="let shoppingListItem of shoppingList" [class.completed]="shoppingListItem.complete">
           <div class="view">
-            <input class="toggle" type="checkbox" (click)="toggle()" [checked]="shoppingListItem.complete">
+            <input class="toggle" type="checkbox" (click)="toggle(shoppingListItem)" [checked]="shoppingListItem.complete">
             <label (dblclick)="enterEditMode(todoItemInput)">{{shoppingListItem.title}}</label>
             <button (click)="delete(shoppingListItem)" class="destroy"></button>
           </div>

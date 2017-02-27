@@ -38,6 +38,10 @@ export class ShoppingListAppComponent {
       this.subscriberService.PublishToChannel("ShoppingListItemRemove", shoppingListItem);
   }
 
+  toggle(shoppingListItem: ShoppingListItem) {
+    shoppingListItem.complete != shoppingListItem.complete;
+  }
+
   addShoppingList() {
     this.subscriberService.PublishToChannel("AddNewShoppingListItem", this.newshoppingListItem);
   }

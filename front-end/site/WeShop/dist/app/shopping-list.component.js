@@ -46,6 +46,9 @@ var ShoppingListAppComponent = (function () {
     ShoppingListAppComponent.prototype.delete = function (shoppingListItem) {
         this.subscriberService.PublishToChannel("ShoppingListItemRemove", shoppingListItem);
     };
+    ShoppingListAppComponent.prototype.toggle = function (shoppingListItem) {
+        shoppingListItem.complete != shoppingListItem.complete;
+    };
     ShoppingListAppComponent.prototype.addShoppingList = function () {
         this.subscriberService.PublishToChannel("AddNewShoppingListItem", this.newshoppingListItem);
     };

@@ -32,6 +32,7 @@ var ShoppingListService = (function () {
         return this.shoppingList;
     };
     ShoppingListService.prototype.InitShoppingList = function (items) {
+        this.shoppingList = [];
         for (var item in items) {
             this.shoppingList.push(new shopping_list_item_1.ShoppingListItem(items[item]));
         }

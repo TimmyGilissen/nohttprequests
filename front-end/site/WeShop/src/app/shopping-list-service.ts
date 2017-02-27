@@ -29,6 +29,7 @@ export class ShoppingListService {
   }
 
   InitShoppingList(items: Object[]) {
+    this.shoppingList = [];
     for(let item in items){
         this.shoppingList.push(new ShoppingListItem(items[item]));
     }

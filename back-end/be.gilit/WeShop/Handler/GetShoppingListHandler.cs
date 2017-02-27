@@ -26,8 +26,22 @@ namespace WeShop.Handler
 
             _pubnub.Subscribe<string>("AddNewShoppingListItem",AddNewShoppingListItem,x =>{}, y => {});
             _pubnub.Subscribe<string>("ShoppingListItemRemove",ShoppingListItemRemove, x => {}, y => {});
+            _pubnub.Subscribe<string>("ToggleShoppingListItem",ToggleShoppingListItem, x => {}, y => {});
 
         }
+
+        private void ToggleShoppingListItem(string message)
+        {
+            Console.WriteLine("ShoppingListItemRemove");
+            List<object> deserializedMessage = _pubnub.JsonPluggableLibrary.DeserializeToListOfObject(message);
+            var shoppingListItem = JsonConvert.DeserializeObject<ShoppingListItemDto>(deserializedMessage[0].ToString());
+
+            var item = _repo.GetItem(shoppingListItem.id);
+            item.complete = shoppingListItem.complete;
+
+            _repo.Save(item);
+
+            }
 
         private void ShoppingListItemRemove(string message)
         {

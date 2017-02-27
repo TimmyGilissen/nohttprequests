@@ -32,5 +32,15 @@ namespace WeShop.Repository
         {
             _collection.DeleteOne(a => a.id == ObjectId.Parse(shoppingListItemId));
         }
+
+        public ShoppingListItem GetItem(string id)
+        {
+           return _collection.Find(a => a.id == ObjectId.Parse(id)).First();
+        }
+
+        public void Save(ShoppingListItem item)
+        {
+            _collection.ReplaceOne(listItem => listItem.id == item.id, item);
+        }
     }
 }
